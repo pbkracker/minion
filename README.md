@@ -10,7 +10,13 @@ About this project
 
 This repository is an 'umbrella' project that simply ties together the separate projects that Minion needs.
 
-* https://github.com/mozilla/minion-core
+Custom / Forked Projects:
+
+* https://github.com/pbkracker/minion-core
+* https://github.com/pbkracker/minion-arachni-plugin
+
+Mozilla Projects
+
 * https://github.com/mozilla/minion-frontend
 * https://github.com/mozilla/minion-zap-plugin
 * https://github.com/mozilla/minion-garmr-plugin
@@ -42,7 +48,7 @@ If you work on Fedora 18, install the following packages:
     
 You can make Minion ready for development by following these steps:
 
-    $ git clone https://github.com/mozilla/minion
+    $ git clone https://github.com/pbkracker/minion
     $ cd minion
     $ ./setup.sh clone
     $ ./setup.sh develop
