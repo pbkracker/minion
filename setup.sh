@@ -9,7 +9,8 @@ set -x
 # checkout the depend projects and to set them up in a virtualenv.
 #
 
-PROJECTS="core nmap-plugin zap-plugin skipfish-plugin garmr-plugin frontend"
+MOZILLA_PROJECTS="nmap-plugin zap-plugin skipfish-plugin garmr-plugin frontend"
+CUSTOM_PROJECTS="core arachni-plugin"
 
 if [ "$(id -u)" == "0" ]; then
     echo "abort: cannot run as root."
@@ -31,7 +32,12 @@ fi
 
 case $1 in
     clone)
-        for project in $PROJECTS; do
+        for project in $CUSTOM_PROJECTS; do
+            if [ ! -d "minion-$project" ]; then
+                git clone --recursive "https://github.com/pbkracker/minion-$project" || exit 1
+            fi
+        done
+        for project in $MOZILLA_PROJECTS; do
             if [ ! -d "minion-$project" ]; then
                 git clone --recursive "https://github.com/mozilla/minion-$project" || exit 1
             fi
@@ -44,7 +50,12 @@ case $1 in
         fi
         # Activate our virtualenv
         source env/bin/activate
-        for project in $PROJECTS; do
+        for project in $CUSTOM_PROJECTS; do
+            if [ -x "minion-$project/setup.sh" ]; then
+				(cd "minion-$project"; "./setup.sh" develop) || exit 1
+            fi
+        done
+        for project in $MOZILLA_PROJECTS; do
             if [ -x "minion-$project/setup.sh" ]; then
 				(cd "minion-$project"; "./setup.sh" develop) || exit 1
             fi
